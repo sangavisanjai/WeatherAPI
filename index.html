@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>OpenWeatherMap Api</title>
+  <style>
+  *{
+  margin:0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  background-color:#2688c7;
+      }
+
+.input{
+  text-align: center;
+  margin: 100px auto;
+}
+
+input[type="submit"]{
+  padding: 15px 30px;
+  background-color: forestgreen;
+  font-weight:bold;
+  font-size: 20px;
+    border: none;
+    cursor: pointer;
+    color:aliceblue;
+    
+}
+
+.input input[type="text"]{
+  width:30%;
+  height: 55px;
+  padding: 5px 10px;
+  background-color: azure;
+  border: none;
+  border-radius: 1px;
+  font-family: "Nunito",sans-serif;
+  font-weight:bold;
+  font-size: 20px;
+}
+
+.card{
+  width:40%;
+  background-color: azure;
+  height:40vh;
+  margin:40px auto;
+}
+
+
+.close{
+  float: right;
+  margin-top: 2px;
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+.card h1{
+  padding: 5px 0;
+  text-align: center;
+}
+
+.card p{
+  
+  margin:10px 20px;
+    text-align: center;
+  font-size:25px;
+}
+
+a {
+    font-size: 30px;
+    text-decoration: none;
+    color:black;
+      }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg custnav">
+  <a class="navbar-brand" href="https://www.weatheronline.in/">
+      <img src="https://www.clipartmax.com/png/middle/237-2372176_weather-app-weather-app-logo.png" class="mr-3" alt="Logo" style="width:6%;margin:5px 10px;border-radius:100%">
+	  Weather
+  </a>
+    </nav>
+    <div class="input">
+      <input type="text" placeholder="Enter the city" class="input_text">
+      <input type="submit" value="Submit" class="submit">
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="card" id="cardblock">
+        <p id="image1"></p>
+      <h1 class="name" id="name"></h1>
+      <p class="temp"></p>
+      <p class="clouds"></p>
+      <p class="desc"></p>
+        <p id="date"></p>
+     
+    </div>
+  </div>
+<script>
+
+var input = document.querySelector('.input_text');
+var main = document.querySelector('#name');
+var temp = document.querySelector('.temp');
+var desc = document.querySelector('.desc');
+var clouds = document.querySelector('.clouds');
+var button= document.querySelector('.submit');
+var show=document.getElementById("date");
+    
+button.addEventListener('click', function(name){
+fetch('https://api.openweathermap.org/data/2.5/weather?q='+input.value+'&appid=016bb57023ff0f998182b6343c74675d')
+.then(response => response.json())
+.then(data => {
+  var tempValue = data['main']['temp'];
+  var nameValue = data['name'];
+  var descValue = data['weather'][0]['description'];
+  main.innerHTML = nameValue;
+    
+  if(desc =="light rain"){
+    desc="IMG-20190715-WA0032.jpg";
+
+  }
+
+ 
+  desc.innerHTML = "Desc - "+descValue;
+    tempValue=tempValue-273.15;
+    tempValue=tempValue.toFixed(1);
+  temp.innerHTML = "Temp - "+tempValue+'&deg;'+"C";
+    show.innerHTML=Date();
+   
+  input.value ="";
+
+})
+
+.catch(err => alert("Please enter a valid city name!"));
+})
+</script>
+</body>
+</html>
